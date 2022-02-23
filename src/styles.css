@@ -1,0 +1,19 @@
+body { margin: 0; -webkit-font-smoothing: antialiased; }
+body, button { font-family: avenir; }
+.App {
+  text-align: center;
+  padding: 10px;
+}
+
+.App-Guess { display: flex; align-items: center; justify-content: center; margin: 8px -5px; }
+.App-Guess-Letter { display: flex; align-items: center; justify-content: center; border: 1px solid #ccc; padding: 10px 0; flex-basis: 60px; border-radius: 2px; margin: 0 4px; line-height: 1; }
+.App-Guess-Letter > span { text-transform: uppercase; font-weight: bold; font-size: 36px;  position: relative; top: 2px;}
+.App-Keyboard { padding: 10px 0; }
+.App-Keyboard:focus { outline: none; }
+
+.App-Keyboard-Row { display: flex; align-items: center; justify-content: center; margin: 15px -5px; }
+.App-Keyboard-Key { display: flex; align-items: center; justify-content: center; border: 1px solid #ccc; text-transform: uppercase; font-weight: bold; padding: 12px 0; flex-basis: 45px; border-radius: 10px; margin: 0 5px; }
+
+.App-Keyboard-Key { -webkit-appearance: none; background: linear-gradient(180deg, #fff 0%, #f2f2f2 100%); border: 1px solid rgba(0,0,0,0.2); box-shadow: 0 5px 0 #c9c9c9, 0 5px 6px rgba(0,0,0,0.3), 0 7px 8px rgba(0,0,0,0.5); cursor: pointer; display: inline-block; outline: 0; position: relative; z-index: 2; }
+.App-Keyboard-Key > span { color: #858585; position: relative; top: 1px; line-height: 1; font-size: 14px; }
+.App-Keyboard-Key:hover > span { color: #858585; }

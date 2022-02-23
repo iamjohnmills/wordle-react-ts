@@ -1,45 +1,51 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import React from 'react'
+// import { useState, useEffect } from 'react';
+// import { useState } from 'react'
+import Guess from './Guess'
+import Keyboard from './Keyboard'
 
-function App() {
-  const [count, setCount] = useState(0)
+//import dictionary from './dictionary/cambridge-5-letter-words.json'
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.tsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+class App extends React.Component<IAppProps, IAppState> {
+	constructor(props: IAppProps) {
+		super(props);
+		this.state = {
+			// name: null
+		};
+	}
+	async componentDidMount() {
+		// try {
+		// 	let r = await fetch('/api/hello');
+		// 	let name = await r.json();
+		// 	this.setState({ name });
+		// } catch (error) {
+		// 	console.log(error);
+		// }
+	}
+	render() { return (
+  <div className="App">
+    <div>
+      <h1>Wordle React-TS</h1>
     </div>
-  )
+    <div>
+      <Guess />
+      <Guess />
+      <Guess />
+      <Guess />
+      <Guess />
+      <Guess />
+    </div>
+    <Keyboard />
+    <div>
+      <p>This is a demonstration of a Wordle clone built with React and Typescript.</p>
+      <p>The words are sourced from the Cambridge Dictionary, and are a subset of common 5-letter words based on the completeness of their definitions and examples provided, for a total of 1054 possible words.</p>
+    </div>
+  </div>
+	) }
 }
+
+export interface IAppProps {}
+
+export interface IAppState {}
 
 export default App
