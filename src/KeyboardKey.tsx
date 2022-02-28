@@ -22,16 +22,20 @@ class KeyboardKey extends React.Component<IAppProps, IAppState> {
     this.setState({ classes: [this.state.class] });
   }
   handleSetKeyboardKey(event){
-		if(event.letter_obj.letter === this.props.letter && event.letter_obj.exact){
+		if(event.letter_obj.letter !== this.props.letter) return;
+		if(event.letter_obj.exact){
 			this.setState({ exact: true, classes: [this.state.class,'is-exact'] })
-		} else if(event.letter_obj.letter === this.props.letter && event.letter_obj.somewhere && !this.state.exact) {
+		} else if(event.letter_obj.somewhere && !this.state.exact) {
 			this.setState({ somewhere: true, classes: [this.state.class,'is-somewhere'] })
-		} else if(event.letter_obj.letter === this.props.letter && event.letter_obj.nowhere && !this.state.somewhere && !this.state.exact) {
+		} else if(event.letter_obj.nowhere && !this.state.exact && !this.state.somewhere) {
 			this.setState({ nowhere: true, classes: [this.state.class,'is-nowhere'] })
 		}
   }
+	handleKeyboardKeyClick(event){
+    EventBus.dispatch('userKeyClick', this.props.letter);
+	}
   render() { return (
-    <button className={this.state.classes.filter(el_class => !!el_class).join(' ')}>
+    <button onClick={this.handleKeyboardKeyClick.bind(this)} className={this.state.classes.filter(el_class => !!el_class).join(' ')}>
       <span>{this.props.letter}</span>
     </button>
   )}

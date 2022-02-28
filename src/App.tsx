@@ -12,11 +12,11 @@ class App extends React.Component<IAppProps, IAppState> {
       answer: null,
       win: null,
       gameover: false,
-			started: false,
 		};
 	}
 	componentDidMount() {
     EventBus.on('gameOver', this.handleGameOver.bind(this));
+    EventBus.on('userKeyClick', this.handleKeyClick.bind(this));
     this.newGame();
 	}
 	handleClickNewGame(){
@@ -33,16 +33,18 @@ class App extends React.Component<IAppProps, IAppState> {
     Game.finish()
     this.setState({ gameover: Game.done, win: Game.win });
   }
+	handleKeyClick(letter){
+    EventBus.dispatch('userKeyPress', { turn: Game.turn, letter: letter });
+	}
   handleKeyDown(event: KeyboardEvent<HTMLInputElement>){
     if(event.code === 'Enter'){
       EventBus.dispatch('userEnter', { turn: Game.turn } );
-    	this.setState({ started: true });
     } else if(event.code === 'Backspace'){
       EventBus.dispatch('userBackspace', { turn: Game.turn });
     } else if(event.keyCode >= 65 && event.keyCode <= 90){
       EventBus.dispatch('userKeyPress', { turn: Game.turn, letter: event.key });
-    } else if(event.code == 'MetaLeft'){
-      EventBus.dispatch('userKeyPress', { turn: Game.turn, letter: '⌘' });
+    } else if(event.code == 'Space'){
+      EventBus.dispatch('userKeyPress', { turn: Game.turn, letter: ' ' });
     }
   }
 	render() { return (
@@ -54,10 +56,6 @@ class App extends React.Component<IAppProps, IAppState> {
 
 		<div className="App-Game">
 
-	    <div className="App-About">
-	      <p>This is a demonstration of a Wordle clone built with React and Typescript.</p>
-	    </div>
-
 	    <div className="App-Guesses">
 	      <Guess turn={1} />
 	      <Guess turn={2} />
@@ -67,13 +65,11 @@ class App extends React.Component<IAppProps, IAppState> {
 	      <Guess turn={6} />
 	    </div>
 
-	    {this.state.started ?
 			<div className="App-Legend">
 				<div><span className="App-Legend-Icon-Exact"></span> Letter is correct</div>
 				<div><span className="App-Legend-Icon-Somewhere"></span> Letter in wrong spot</div>
 				<div><span className="App-Legend-Icon-Nowhere"></span> Letter not in word</div>
 			</div>
-	    : null }
 
 	    <Keyboard />
 
@@ -102,7 +98,6 @@ export interface IAppState {
   answer: string,
   gameover: boolean,
   win: boolean,
-	started: boolean,
 }
 
 export default App

@@ -1,4 +1,4 @@
-import dictionary from './dictionary/cambridge-5-letter-words.json'
+import dictionary from './dictionary/words.json'
 
 class Game {
   constructor(){
@@ -30,8 +30,8 @@ class Game {
   start(){
     this.reset();
     const random_word = dictionary[Math.floor(Math.random()*dictionary.length)];
-    this.answer = random_word.word;
-    this.answer_letters = random_word.word.split('');
+    this.answer = random_word;
+    this.answer_letters = random_word.split('');
     // this.answer = 'budge'; //budge beady
     // this.answer_letters = this.answer.split('');
   }
@@ -73,7 +73,7 @@ class Game {
     const guess_index = this.guesses.findIndex(guess => guess.active);
     if(this.guesses[guess_index].letters.filter(guess_letter => !!guess_letter.letter).length !== 5) return;
     const guess_word = this.guesses[guess_index].letters.map(guess_letter => guess_letter.letter).join('').toLowerCase();
-    return dictionary.findIndex(entry => entry.word.toLowerCase() === guess_word ) !== -1;
+    return dictionary.findIndex(entry => entry === guess_word ) !== -1;
   }
   getGuessLetter(turn,letter,letter_index){
     const letter_obj = this.guesses[turn-1].letters.find( (guess_letter,i) => guess_letter.letter === letter && i === letter_index );
