@@ -1,19 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200&family=Roboto+Slab:wght@900&display=swap');
+
+* { box-sizing:border-box; }
 body { margin: 0; -webkit-font-smoothing: antialiased; }
 body, button { font-family: avenir; }
-.App {
-  text-align: center;
-  padding: 10px;
+.font-logo { font-family: 'Roboto Slab', serif; }
+.font-alt { font-family: 'Dosis', sans-serif; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+
+
+.App { text-align: center; outline: none; }
+
+.App-Game { display: flex; flex-direction: column; align-items: center; padding: 10px; }
+
+.App-Gameover { position: fixed; top: calc(50% - 150px); background: #fff; width: 300px; padding: 30px; border-radius: 4px; box-shadow: 0 1px 2px 1px rgba(0,0,0,0.2); }
+
+.App-Header { padding: 10px; border-bottom: 1px solid #ccc; }
+  .App-Header h1 { line-height: 1; margin: 0; }
+  .App-Header h1::first-letter { margin-right: -3px; }
+  .App-Header h1 .font-logo { font-size: 32px; color: rgba(0,0,0,0.9); }
+  .App-Header h1 .font-alt { font-size: 22px; position: relative; top: -0.8px; color: rgba(0,0,0,0.4) }
+
+.App-About { padding: 10px; font-size: 12px; }
+  .App-About p:first-child { margin-top: 0; }
+  .App-About p:last-child { margin-bottom: 0; }
+
+.App-Guesses { padding: 10px; }
+  .App-Guess { position: relative; margin-bottom: 6px; grid-column-gap: 6px; grid-template-columns: repeat(5,70px); grid-auto-rows: 70px; grid-auto-flow: column; display: grid; }
+  .App-Guess:last-child { margin-bottom: 0; }
+  .App-Guess.invalid-word { animation: shake 0.82s cubic-bezier(.36,.07,.19,.97) both; transform: translate3d(0, 0, 0); backface-visibility: hidden; perspective: 1000px; }
+
+    .App-Guess-Letter { perspective: 500px; }
+      .App-Guess-Letter-Content { transition: transform 1s; transform-style: preserve-3d; position: relative; width: 100%; height: 100%; }
+      .App-Guess-Letter.is-nowhere .App-Guess-Letter-Content,
+      .App-Guess-Letter.is-somewhere .App-Guess-Letter-Content,
+      .App-Guess-Letter.is-exact .App-Guess-Letter-Content { transform: rotateX( 180deg ); transition: transform 1s;  }
+
+        .App-Guess-Letter-Content-Front,
+        .App-Guess-Letter-Content-Back { backface-visibility: hidden; border: 2px solid #d3d6da; background: #fff; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+        .App-Guess-Letter-Content-Front > span,
+        .App-Guess-Letter-Content-Back > span { text-transform: uppercase; font-weight: bold; font-size: 40px; width: 100%; line-height: 1; position: relative; top: 2px; }
+        .App-Guess-Letter-Content-Front { position: relative; z-index: 1; }
+        .App-Guess-Letter-Content-Back { position: absolute; left: 0; top: 0; right: 0; bottom: 0; z-index: 2; transform: rotateX( 180deg ); }
+        .App-Guess-Letter.has-letter .App-Guess-Letter-Content-Front { border-color: #1a1a1a; animation: zoom-in-zoom-out 0.2s ease; }
+
+        .App-Guess-Letter.is-nowhere .App-Guess-Letter-Content-Back { border-color: #787c7e; background: #787c7e; }
+        .App-Guess-Letter.is-somewhere .App-Guess-Letter-Content-Back { background: #c9b458; border-color: #c9b458; }
+        .App-Guess-Letter.is-exact .App-Guess-Letter-Content-Back { background: #6aaa64; border-color: #6aaa64; }
+        .App-Guess-Letter.is-nowhere .App-Guess-Letter-Content-Back > span,
+        .App-Guess-Letter.is-somewhere .App-Guess-Letter-Content-Back > span,
+        .App-Guess-Letter.is-exact .App-Guess-Letter-Content-Back > span { color: #fff; }
+
+@keyframes zoom-in-zoom-out {
+  0% { transform: scale(1.1, 1.1); }
+  /*50% { transform: scale(1.05, 1.05); }*/
+  100% { transform: scale(1, 1); }
 }
 
-.App-Guess { display: flex; align-items: center; justify-content: center; margin: 8px -5px; }
-.App-Guess-Letter { display: flex; align-items: center; justify-content: center; border: 1px solid #ccc; padding: 10px 0; flex-basis: 60px; border-radius: 2px; margin: 0 4px; line-height: 1; }
-.App-Guess-Letter > span { text-transform: uppercase; font-weight: bold; font-size: 36px;  position: relative; top: 2px;}
-.App-Keyboard { padding: 10px 0; }
-.App-Keyboard:focus { outline: none; }
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
 
-.App-Keyboard-Row { display: flex; align-items: center; justify-content: center; margin: 15px -5px; }
-.App-Keyboard-Key { display: flex; align-items: center; justify-content: center; border: 1px solid #ccc; text-transform: uppercase; font-weight: bold; padding: 12px 0; flex-basis: 45px; border-radius: 10px; margin: 0 5px; }
+.App-Legend { padding: 10px; display: flex; flex-direction: row; justify-content: center; line-height: 1; }
+  .App-Legend > div { display: flex; align-items: center; font-size: 14px; }
+  .App-Legend [class^="App-Legend-Icon-"] { margin: 0 10px; display: inline-block; width: 25px; height: 15px;}
+  .App-Legend-Icon-Exact { background: #6aaa64; }
+  .App-Legend-Icon-Somewhere { background: #c9b458; }
+  .App-Legend-Icon-Nowhere { background: #787c7e; }
 
-.App-Keyboard-Key { -webkit-appearance: none; background: linear-gradient(180deg, #fff 0%, #f2f2f2 100%); border: 1px solid rgba(0,0,0,0.2); box-shadow: 0 5px 0 #c9c9c9, 0 5px 6px rgba(0,0,0,0.3), 0 7px 8px rgba(0,0,0,0.5); cursor: pointer; display: inline-block; outline: 0; position: relative; z-index: 2; }
-.App-Keyboard-Key > span { color: #858585; position: relative; top: 1px; line-height: 1; font-size: 14px; }
-.App-Keyboard-Key:hover > span { color: #858585; }
+.App-Keyboard { padding: 10px; display: flex; flex-direction: column; justify-content: stretch; }
+  .App-Keyboard-Row { display: flex; align-items: center; justify-content: center; margin: 4px -4px; }
+    .App-Keyboard-Key { background-color: #d3d6da; cursor: pointer; display: flex; align-items: center; justify-content: center; border: 0; min-width: 50px; height: 65px; border-radius: 6px; margin: 0 4px; }
+    .App-Keyboard-Key > span { position: relative; top: 1px; text-transform: uppercase; font-weight: bold; color: #1a1a1a; line-height: 1; font-size: 18px; }
+    .App-Keyboard-Key.is-somewhere { background: #c9b458; }
+    .App-Keyboard-Key.is-exact { background: #6aaa64;  }
+    .App-Keyboard-Key.is-nowhere { background: #787c7e;  }
+    .App-Keyboard-Key.is-nowhere > span,
+    .App-Keyboard-Key.is-somewhere > span,
+    .App-Keyboard-Key.is-exact > span { color: #fff; }
+
+.App-New-Game-Button { border-radius: 10px; margin-bottom: 15px; padding: 8px 10px; font-size: 18px; cursor: pointer; background: green; color: #fff; font-weight: bold; border: 0; }
