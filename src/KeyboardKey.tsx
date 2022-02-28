@@ -19,7 +19,7 @@ class KeyboardKey extends React.Component<IAppProps, IAppState> {
 		this.init();
   }
   init(){
-    this.setState({ classes: [this.state.class] });
+    this.setState({ exact: false, somewhere: false, nowhere: false, classes: [this.state.class] });
   }
   handleSetKeyboardKey(event){
 		if(event.letter_obj.letter !== this.props.letter) return;
