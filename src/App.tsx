@@ -35,7 +35,13 @@ class App extends React.Component<IAppProps, IAppState> {
     this.setState({ gameover: Game.done, win: Game.win });
   }
 	handleKeyClick(letter){
-    EventBus.dispatch('userKeyPress', { turn: Game.turn, letter: letter });
+		if(letter === 'enter'){
+      EventBus.dispatch('userEnter', { turn: Game.turn } );
+		} else if(letter === 'del'){
+      EventBus.dispatch('userBackspace', { turn: Game.turn });
+		} else {
+    	EventBus.dispatch('userKeyPress', { turn: Game.turn, letter: letter });
+		}
 	}
   handleKeyDown(event: KeyboardEvent<HTMLInputElement>){
 		event.preventDefault();
