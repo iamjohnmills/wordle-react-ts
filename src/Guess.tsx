@@ -10,6 +10,7 @@ class Guess extends React.Component<IAppProps, IAppState> {
       class: 'App-Guess',
       classes: [],
       guessed: false,
+      success: false,
       letters: ['','','','',''],
 		};
 	}
@@ -21,7 +22,7 @@ class Guess extends React.Component<IAppProps, IAppState> {
     this.init()
   }
   init(){
-    this.setState({ guessed: false, letters: ['','','','',''], classes: [this.state.class] });
+    this.setState({ guessed: false, success: false, letters: ['','','','',''], classes: [this.state.class] });
   }
   async handleUserEnter(event){
     if( event.turn !== this.props.turn || this.state.guessed ) return;
@@ -29,7 +30,14 @@ class Guess extends React.Component<IAppProps, IAppState> {
     if( Game.isFinished() ){
       Game.checkCurrentGuess();
       setTimeout(() => {
-        EventBus.dispatch('gameOver');
+        if(Game.hasCorrectGuess()){
+          this.setState({ success: true });
+          setTimeout(() => {
+            EventBus.dispatch('gameOver');
+          },800)
+        } else {
+          EventBus.dispatch('gameOver');
+        }
       },2000)
     } else if( Game.isNextTurn() ){
       Game.checkCurrentGuess();
@@ -55,7 +63,7 @@ class Guess extends React.Component<IAppProps, IAppState> {
     <div className={this.state.classes.join(' ')}>
       { this.state.letters.map( (guess_letter,i,letters) => {
         return (
-          <GuessLetter key={i} guessed={this.state.guessed} turn={this.props.turn} letter={guess_letter} letter_index={i} />
+          <GuessLetter key={i} success={this.state.success} guessed={this.state.guessed} turn={this.props.turn} letter={guess_letter} letter_index={i} />
         )
       }) }
     </div>
@@ -70,6 +78,7 @@ export interface IAppState {
   class: string,
   classes: array,
   guessed: boolean,
+  success: boolean,
   letters: array,
 }
 

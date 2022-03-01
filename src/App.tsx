@@ -25,6 +25,7 @@ class App extends React.Component<IAppProps, IAppState> {
 	}
 	newGame(){
     Game.start();
+		//this.setState({ answer: 'budge', gameover: true, win: true })
 		this.setState({ answer: Game.answer, gameover: Game.done, win: Game.win })
     this.app.current.focus();
 		console.log(Game.answer)
@@ -37,6 +38,7 @@ class App extends React.Component<IAppProps, IAppState> {
     EventBus.dispatch('userKeyPress', { turn: Game.turn, letter: letter });
 	}
   handleKeyDown(event: KeyboardEvent<HTMLInputElement>){
+		event.preventDefault();
     if(event.code === 'Enter'){
       EventBus.dispatch('userEnter', { turn: Game.turn } );
     } else if(event.code === 'Backspace'){
@@ -75,12 +77,12 @@ class App extends React.Component<IAppProps, IAppState> {
 
 	    {this.state.gameover ?
 	    <div className="App-Gameover">
-	      <h2>{this.state.win ? 'You Win!' : 'You lose.'}</h2>
-				{!this.state.win ?
-					<p>Answer: {this.state.answer}</p>
-				: null}
-	      <button onClick={() => this.handleClickNewGame() } className="App-New-Game-Button">New Game</button>
-	      <p>This is a demonstration of a Wordle clone built with React and Typescript by John Mills.</p>
+	      <h2 className="mb-10">{this.state.win ? 'You Win!' : 'You lose.'}</h2>
+				<p className="mb-10">{this.state.answer.toUpperCase().split('').map( (letter,i) => {
+					return ( <span key={i} className="Answer-Letter"><span>{letter}</span></span> )
+				})}</p>
+	      <p className="mb-10"><button onClick={() => this.handleClickNewGame() } className="App-New-Game-Button">New Game</button></p>
+	      <p className="mb-10">This is a demonstration of a Wordle clone built with React and Typescript by John Mills.</p>
 				<p>Learn more about <a href="/" target="_blank">me</a> or view the <a href="/" target="_blank">source code</a> for the project</p>
 	    </div>
 	    : null }
