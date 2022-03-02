@@ -8,7 +8,7 @@ interface Letter {
   nowhere: boolean
 }
 
-interface Guesses {
+interface Guess {
   active: boolean,
   letters: Array<Letter>
 }
