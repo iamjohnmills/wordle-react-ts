@@ -1,11 +1,11 @@
 const EventBus = {
-  on(event: CustomEvent, callback: () => void): void  {
-    document.addEventListener(event, (e) => callback(e.detail));
+  on(event: string, callback: Function): void {
+    document.addEventListener(event, (e:CustomEvent) => callback(e.detail) )
   },
-  dispatch(event: CustomEvent, data): void {
-    document.dispatchEvent(new CustomEvent(event, { detail: data }));
+  dispatch(event: string, data?: any): void {
+    document.dispatchEvent(new CustomEvent(event, { detail: data } ));
   },
-  remove(event: CustomEvent, callback: () => void): void  {
+  remove(event: string, callback: any): void  {
     document.removeEventListener(event, callback);
   },
 };

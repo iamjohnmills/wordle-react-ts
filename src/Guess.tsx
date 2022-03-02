@@ -14,14 +14,14 @@ interface IAppProps {
 
 interface IAppState {
   class: string,
-  classes: array,
+  classes: Array<string>,
   guessed: boolean,
   success: boolean,
-  letters: array,
+  letters: Array<string>,
 }
 
 class Guess extends React.Component<IAppProps, IAppState> {
-	constructor(props: IAppProps): void {
+	constructor(props: IAppProps) {
 		super(props);
 		this.state = {
       class: 'App-Guess',
@@ -38,10 +38,10 @@ class Guess extends React.Component<IAppProps, IAppState> {
     EventBus.on('resetGame', this.init.bind(this));
     this.init()
   }
-  init(): void{
+  init(): void {
     this.setState({ guessed: false, success: false, letters: ['','','','',''], classes: [this.state.class] });
   }
-  async handleUserEnter(event:KeyPressEvent): void{
+  handleUserEnter(event:KeyPressEvent): void {
     if( event.turn !== this.props.turn || this.state.guessed ) return;
     this.setState({ guessed: true });
     if( Game.isFinished() ){
@@ -68,17 +68,17 @@ class Guess extends React.Component<IAppProps, IAppState> {
       },820)
     }
   }
-  handleUserBackspace(event:KeyPressEvent): void{
+  handleUserBackspace(event:KeyPressEvent): void {
     if(event.turn !== this.props.turn) return;
     this.setState({ guessed: false, letters: Game.removeGuessLetter(), classes: [this.state.class] });
   }
-  handleUserKeyPress(event:KeyPressEvent): void{
+  handleUserKeyPress(event:KeyPressEvent): void {
     if(event.turn !== this.props.turn) return;
     this.setState({ letters: Game.setGuessLetter(event.letter) });
   }
   render() { return (
     <div className={this.state.classes.join(' ')}>
-      { this.state.letters.map( (guess_letter,i,letters) => {
+      { this.state.letters.map( (guess_letter:string,i:number,letters:Array<string>) => {
         return (
           <GuessLetter key={i} success={this.state.success} guessed={this.state.guessed} turn={this.props.turn} letter={guess_letter} letter_index={i} />
         )

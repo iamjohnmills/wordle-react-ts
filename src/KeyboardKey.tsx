@@ -15,14 +15,14 @@ interface IAppProps {
 
 interface IAppState {
   class: string,
-  classes: array,
+  classes: Array<string>,
 	exact: boolean,
 	somewhere: boolean,
 	nowhere: boolean,
 }
 
 class KeyboardKey extends React.Component<IAppProps, IAppState> {
-	constructor(props: IAppProps): void {
+	constructor(props: IAppProps) {
 		super(props);
 		this.state = {
 			class: 'App-Keyboard-Key',
@@ -40,17 +40,17 @@ class KeyboardKey extends React.Component<IAppProps, IAppState> {
   init(): void {
     this.setState({ exact: false, somewhere: false, nowhere: false, classes: [this.state.class] });
   }
-  handleSetKeyboardKey<Letter>(event: Letter): void {
-		if(event.letter_obj.letter !== this.props.letter) return;
-		if(event.letter_obj.exact){
+  handleSetKeyboardKey(event: Letter): void {
+		if(event.letter !== this.props.letter) return;
+		if(event.exact){
 			this.setState({ exact: true, classes: [this.state.class,'is-exact'] })
-		} else if(event.letter_obj.somewhere && !this.state.exact) {
+		} else if(event.somewhere && !this.state.exact) {
 			this.setState({ somewhere: true, classes: [this.state.class,'is-somewhere'] })
-		} else if(event.letter_obj.nowhere && !this.state.exact && !this.state.somewhere) {
+		} else if(event.nowhere && !this.state.exact && !this.state.somewhere) {
 			this.setState({ nowhere: true, classes: [this.state.class,'is-nowhere'] })
 		}
   }
-	handleKeyboardKeyClick(event: React.ClickEvent<HTMLInputElement>): void {
+	handleKeyboardKeyClick(event: React.MouseEvent<HTMLButtonElement>): void {
     EventBus.dispatch('userKeyClick', this.props.letter);
 	}
   render() { return (

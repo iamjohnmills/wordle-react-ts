@@ -4,35 +4,46 @@ import EventBus from "./EventBus";
 
 interface IAppProps {
 	guessed: boolean,
-	turn: boolean,
-	letter_index: boolean,
-	letter: null,
+	success: boolean,
+	turn: number,
+	letter_index: number,
+	letter: string,
 }
 
 interface IAppState {
   class: string,
-  classes: array,
+  classes: Array<string>,
+}
+
+interface Letter {
+  letter: string,
+  position: number,
+  exact: boolean,
+  somewhere: boolean,
+  nowhere: boolean
 }
 
 class GuessLetter extends React.Component<IAppProps, IAppState> {
+  private timeout_class?: ReturnType<typeof setTimeout>;
+  private timeout_keyboard?: ReturnType<typeof setTimeout>;
+
 	constructor(props: IAppProps) {
 		super(props);
 		this.state = {
       class: 'App-Guess-Letter',
       classes: [],
 		};
-		this.timeout_class = null;
-		this.timeout_keyboard = null;
 	}
   componentDidUpdate(prev: IAppProps): void {
 		if(JSON.stringify(this.props) === JSON.stringify(prev)) return;
 		if(this.timeout_class) clearTimeout(this.timeout_class);
 		if(this.timeout_keyboard) clearTimeout(this.timeout_keyboard);
 		if(this.props.guessed && this.props.letter){
-      const letter_obj = Game.getGuessLetter(this.props.turn, this.props.letter, this.props.letter_index);
-	    const exact_class = letter_obj.exact ? 'is-exact' : null;
-	    const somewhere_class = letter_obj.somewhere ? 'is-somewhere' : null;
-	    const nowhere_class = letter_obj.nowhere ? 'is-nowhere' : null;
+      const letter_obj:Letter|undefined = Game.getGuessLetter(this.props.turn, this.props.letter, this.props.letter_index);
+			if(!letter_obj) return;
+	    const exact_class:string = letter_obj.exact ? 'is-exact' : '';
+	    const somewhere_class:string = letter_obj.somewhere ? 'is-somewhere' : '';
+	    const nowhere_class:string = letter_obj.nowhere ? 'is-nowhere' : '';
 	    this.timeout_class = setTimeout(() => {
 				if(this.props.success){
 					this.setState({ classes: [this.state.class,'has-letter','success',exact_class,somewhere_class,nowhere_class] })
@@ -42,7 +53,7 @@ class GuessLetter extends React.Component<IAppProps, IAppState> {
 	    },(this.props.success ? 100 : 300) * this.props.letter_index);
 			this.timeout_keyboard = setTimeout(()=>{
 				if(!this.props.success){
-	      	EventBus.dispatch('setKeyboardKey', { letter_obj: letter_obj });
+	      	EventBus.dispatch('setKeyboardKey', letter_obj );
 				}
 			},2000)
 		} else if(!this.props.guessed && this.props.letter) {

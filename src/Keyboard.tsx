@@ -6,7 +6,9 @@ interface IAppProps {}
 interface IAppState {}
 
 class Keyboard extends React.Component<IAppProps, IAppState> {
-	constructor(props: IAppProps): void {
+  private key_rows: Array<Array<string>>;
+
+	constructor(props: IAppProps) {
 		super(props);
     this.key_rows = [
       ['q','w','e','r','t','y','u','i','o','p'],
@@ -16,8 +18,8 @@ class Keyboard extends React.Component<IAppProps, IAppState> {
 	}
   render() { return (
     <div className="App-Keyboard">
-      {this.key_rows.map((row,i) => {
-        return ( <div className="App-Keyboard-Row" key={i}>{row.map(key => {
+      {this.key_rows.map((row:Array<string>,i:number) => {
+        return ( <div className="App-Keyboard-Row" key={i}>{row.map( (key:string) => {
 					return ( <KeyboardKey key={key} letter={key} /> )
         })}</div> )
       }) }

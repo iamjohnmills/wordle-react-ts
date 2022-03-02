@@ -13,12 +13,14 @@ interface IAppState {
 }
 
 class App extends React.Component<IAppProps, IAppState> {
+  private el_app: React.RefObject<HTMLInputElement>;
+
 	constructor(props: IAppProps) {
 		super(props);
-    this.app = React.createRef();
+    this.el_app = React.createRef();
 		this.state = {
-      answer: null,
-      win: null,
+      answer: '',
+      win: false,
       gameover: false,
 		};
 	}
@@ -28,14 +30,14 @@ class App extends React.Component<IAppProps, IAppState> {
     this.newGame();
 	}
 	handleClickNewGame(): void {
-		EventBus.dispatch('resetGame');
+		EventBus.dispatch('resetGame', null );
     this.newGame();
 	}
 	newGame(): void {
     Game.start();
 		//this.setState({ answer: 'react', gameover: true, win: true })
 		this.setState({ answer: Game.answer, gameover: Game.done, win: Game.win })
-    this.app.current.focus();
+    this.el_app?.current?.focus();
 		console.log(Game.answer)
 	}
   handleGameOver(): void {
@@ -64,7 +66,7 @@ class App extends React.Component<IAppProps, IAppState> {
     }
   }
 	render() { return (
-  <div className="App" ref={this.app} tabIndex="0" onKeyDown={this.handleKeyDown.bind(this)}>
+  <div className="App" ref={this.el_app} tabIndex={0} onKeyDown={this.handleKeyDown.bind(this)}>
     <div className="App-Header">
       <h1><span className="font-logo">Wordle</span> <span className="font-alt">REACT-TS</span></h1>
     </div>
