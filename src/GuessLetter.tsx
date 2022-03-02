@@ -1,6 +1,18 @@
 import React from 'react'
 import Game from './Game'
-import EventBus from "./EventBus.js";
+import EventBus from "./EventBus";
+
+interface IAppProps {
+	guessed: boolean,
+	turn: boolean,
+	letter_index: boolean,
+	letter: null,
+}
+
+interface IAppState {
+  class: string,
+  classes: array,
+}
 
 class GuessLetter extends React.Component<IAppProps, IAppState> {
 	constructor(props: IAppProps) {
@@ -11,16 +23,11 @@ class GuessLetter extends React.Component<IAppProps, IAppState> {
 		};
 		this.timeout_class = null;
 		this.timeout_keyboard = null;
-		this.timeout_success = null;
 	}
-  componentDidMount() {
-		//this.setState({ classes: [this.state.class] })
-  }
-  componentDidUpdate(prev) {
+  componentDidUpdate(prev: IAppProps): void {
 		if(JSON.stringify(this.props) === JSON.stringify(prev)) return;
 		if(this.timeout_class) clearTimeout(this.timeout_class);
 		if(this.timeout_keyboard) clearTimeout(this.timeout_keyboard);
-		if(this.timeout_success) clearTimeout(this.timeout_success);
 		if(this.props.guessed && this.props.letter){
       const letter_obj = Game.getGuessLetter(this.props.turn, this.props.letter, this.props.letter_index);
 	    const exact_class = letter_obj.exact ? 'is-exact' : null;
@@ -56,18 +63,6 @@ class GuessLetter extends React.Component<IAppProps, IAppState> {
 	    </div>
 	  </div>
   )}
-}
-
-export interface IAppProps {
-	guessed: boolean,
-	turn: boolean,
-	letter_index: boolean,
-	letter: null,
-}
-
-export interface IAppState {
-  class: string,
-  classes: array,
 }
 
 export default GuessLetter

@@ -1,10 +1,27 @@
 import React from 'react'
 import Game from './Game'
-import EventBus from "./EventBus.js";
+import EventBus from "./EventBus";
 import GuessLetter from "./GuessLetter";
 
+interface KeyPressEvent {
+  turn: number,
+  letter?: string
+}
+
+interface IAppProps {
+  turn: number,
+}
+
+interface IAppState {
+  class: string,
+  classes: array,
+  guessed: boolean,
+  success: boolean,
+  letters: array,
+}
+
 class Guess extends React.Component<IAppProps, IAppState> {
-	constructor(props: IAppProps) {
+	constructor(props: IAppProps): void {
 		super(props);
 		this.state = {
       class: 'App-Guess',
@@ -14,17 +31,17 @@ class Guess extends React.Component<IAppProps, IAppState> {
       letters: ['','','','',''],
 		};
 	}
-  componentDidMount() {
+  componentDidMount(): void {
     EventBus.on('userEnter', this.handleUserEnter.bind(this));
     EventBus.on('userBackspace', this.handleUserBackspace.bind(this));
     EventBus.on('userKeyPress', this.handleUserKeyPress.bind(this));
     EventBus.on('resetGame', this.init.bind(this));
     this.init()
   }
-  init(){
+  init(): void{
     this.setState({ guessed: false, success: false, letters: ['','','','',''], classes: [this.state.class] });
   }
-  async handleUserEnter(event){
+  async handleUserEnter(event:KeyPressEvent): void{
     if( event.turn !== this.props.turn || this.state.guessed ) return;
     this.setState({ guessed: true });
     if( Game.isFinished() ){
@@ -51,11 +68,11 @@ class Guess extends React.Component<IAppProps, IAppState> {
       },820)
     }
   }
-  handleUserBackspace(event){
+  handleUserBackspace(event:KeyPressEvent): void{
     if(event.turn !== this.props.turn) return;
     this.setState({ guessed: false, letters: Game.removeGuessLetter(), classes: [this.state.class] });
   }
-  handleUserKeyPress(event){
+  handleUserKeyPress(event:KeyPressEvent): void{
     if(event.turn !== this.props.turn) return;
     this.setState({ letters: Game.setGuessLetter(event.letter) });
   }
@@ -68,18 +85,6 @@ class Guess extends React.Component<IAppProps, IAppState> {
       }) }
     </div>
   )}
-}
-
-export interface IAppProps {
-  turn: number,
-}
-
-export interface IAppState {
-  class: string,
-  classes: array,
-  guessed: boolean,
-  success: boolean,
-  letters: array,
 }
 
 export default Guess

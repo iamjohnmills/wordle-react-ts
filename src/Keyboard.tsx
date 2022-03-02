@@ -1,10 +1,12 @@
-import React, {KeyboardEvent} from 'react'
-import Game from './Game'
+import React from 'react'
 import KeyboardKey from './KeyboardKey'
-import EventBus from "./EventBus.js";
+
+interface IAppProps {}
+
+interface IAppState {}
 
 class Keyboard extends React.Component<IAppProps, IAppState> {
-	constructor(props: IAppProps) {
+	constructor(props: IAppProps): void {
 		super(props);
     this.key_rows = [
       ['q','w','e','r','t','y','u','i','o','p'],
@@ -12,25 +14,15 @@ class Keyboard extends React.Component<IAppProps, IAppState> {
       ['enter','z','x','c','v','b','n','m','del'],
     ]
 	}
-  componentDidMount() {
-  }
   render() { return (
     <div className="App-Keyboard">
       {this.key_rows.map((row,i) => {
         return ( <div className="App-Keyboard-Row" key={i}>{row.map(key => {
-					return (
-						<KeyboardKey key={key} letter={key} />
-					)
+					return ( <KeyboardKey key={key} letter={key} /> )
         })}</div> )
       }) }
     </div>
   )}
-}
-
-export interface IAppProps {
-}
-
-export interface IAppState {
 }
 
 export default Keyboard
