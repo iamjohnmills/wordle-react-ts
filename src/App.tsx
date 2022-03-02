@@ -93,7 +93,7 @@ class App extends React.Component<IAppProps, IAppState> {
 				})}</p>
 	      <p className="mb-10"><button onClick={() => this.handleClickNewGame() } className="App-New-Game-Button">New Game</button></p>
 	      <p className="mb-10">This is a demonstration of a Wordle clone built with React and Typescript by John Mills.</p>
-				<p>Learn more about <a href="/" target="_blank">me</a> or view the <a href="/" target="_blank">source code</a> for the project</p>
+				<p>Learn more about <a href="https://github.com/iamjohnmills" target="_blank">me</a> or view the <a href="https://github.com/iamjohnmills/wordle-react-ts" target="_blank">source code</a> for the project</p>
 	    </div>
 	    : null }
 		</div>
