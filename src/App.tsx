@@ -35,7 +35,6 @@ class App extends React.Component<IAppProps, IAppState> {
 	}
 	newGame(): void {
     Game.start();
-		//this.setState({ answer: 'react', gameover: true, win: true })
 		this.setState({ answer: Game.answer, gameover: Game.done, win: Game.win })
     this.el_app?.current?.focus();
 		console.log(Game.answer)

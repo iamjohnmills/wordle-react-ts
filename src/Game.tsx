@@ -58,8 +58,6 @@ class Game {
     const random_word = dictionary[Math.floor(Math.random()*dictionary.length)];
     this.answer = random_word;
     this.answer_letters = random_word.split('');
-    // this.answer = 'budge'; //budge beady
-    // this.answer_letters = this.answer.split('');
   }
   finish(): void {
     this.win = this.hasCorrectGuess()
