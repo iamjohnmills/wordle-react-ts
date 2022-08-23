@@ -1,7 +1,5 @@
-# Wordle Clone
+# Wordle
 
-React, Typescript, Vite
+Made with React + Typescript. CSS animations, keyboard events, a custom dictionary and more.
 
-Install: ```npm install```
-
-Run: ```npm run dev```
+[![Wordle](https://raw.githubusercontent.com/iamjohnmills/ps3-react-ts/master/screenshot.gif)](https://iamjohnmills.github.io/wordle-react-ts/)
