@@ -21,16 +21,16 @@ interface IAppState {
 }
 
 class Guess extends React.Component<IAppProps, IAppState> {
-	constructor(props: IAppProps) {
-		super(props);
-		this.state = {
+  constructor(props: IAppProps) {
+    super(props);
+    this.state = {
       class: 'App-Guess',
       classes: [],
       guessed: false,
       success: false,
       letters: ['','','','',''],
-		};
-	}
+    };
+  }
   componentDidMount(): void {
     EventBus.on('userEnter', this.handleUserEnter.bind(this));
     EventBus.on('userBackspace', this.handleUserBackspace.bind(this));
